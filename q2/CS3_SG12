@@ -1,0 +1,38 @@
+from abc import ABC, abstractmethod
+
+class Sensor(ABC):
+    @abstractmethod
+    def get_reading(self):
+        pass
+
+class PHSensor(Sensor):
+    def __init__(self, reading_value: float):
+        self._reading_value = reading_value
+
+    def get_reading(self):
+        status = "Neutral" if self._reading_value == 7.0 else "Acidic/Basic"
+        print(f"[pH Sensor] Reading: {self._reading_value} pH ({status})")
+
+class TempSensor(Sensor):
+    def __init__(self, temp_value: float):
+        self._temp_value = temp_value
+
+    def get_reading(self):
+        print(f"[Temperature Sensor] Reading: {self._temp_value}°C")
+
+if __name__ == "__main__":
+    print("--- Lab Inventory System ---")
+    
+    ph_sensor = PHSensor(7.2)
+    temp_sensor = TempSensor(24.5)
+
+    ph_sensor.get_reading()
+    temp_sensor.get_reading()
+    
+    print("-" * 30)
+
+    print("\n--- Task 5: The 'Break it' Test ---")
+    try:
+        my_sensor = Sensor()
+    except TypeError as e:
+        print(f"Caught expected error: {e}")
